@@ -6,7 +6,6 @@ import {
   Share,
   PlayLg,
   Reply,
-  X,
   Pencil,
   ClickLg,
   PlusCircle,
@@ -15,6 +14,7 @@ import {
   Folder,
   Document,
   PaperAirplane,
+  Trash,
 } from "./Icons";
 
 function App() {
@@ -74,7 +74,6 @@ function DevTools() {
           </header>
           <div className="flex-grow bg-white rounded-b-md"></div>
         </div>
-        {/* <Transcript /> */}
         <div className="w-1/3 rounded-md flex flex-col space-y-2">
           <div className="bg-gray-900 h-1/2 flex-grow rounded-md" />
           <div className="bg-white h-1/2 rounded-md flex flex-col">
@@ -103,7 +102,7 @@ function List({ header, children }) {
     <div className="bg-white w-96 rounded-md p-4 flex flex-col space-y-6">
       <h2 className="font-medium">{header}</h2>
       <div className="overflow-auto flex-grow">
-        <div className="flex flex-col space-y-6 h-0">{children}</div>
+        <div className="flex flex-col space-y-2 h-0">{children}</div>
       </div>
     </div>
   );
@@ -112,12 +111,12 @@ function List({ header, children }) {
 function Transcript() {
   return (
     <List header="Transcript">
-      <div className="flex flex-row justify-between hover:bg-gray-100 p-2 rounded-sm duration-300">
+      <div className="flex flex-row justify-between p-4 border-2 rounded-md duration-300 hover:border-blue-400">
         <div className="flex flex-row items-center space-x-4">
-          <div className="w-8 h-8 p-1 text-gray-500">
+          <div className="w-6 h-6 text-gray-500">
             <ClickLg />
           </div>
-          <span>Mouse Click</span>
+          <span className="font-medium text-sm">Mouse Click</span>
         </div>
         <div>
           <span className="rounded-md font-mono bg-gray-100 text-gray-500 text-xs p-1">
@@ -129,11 +128,22 @@ function Transcript() {
         pointTime={"00:25"}
         user={"Jason"}
         time={"1:04pm"}
-        color={"green"}
+        color={"red"}
+        selected
       >
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+        This logo would be nicer in pink
+        {/* Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
         tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-        veniam, quis
+        veniam, quis */}
+      </Comment>
+      <Comment
+        pointTime={"00:40"}
+        user={"Jaril"}
+        time={"1:04pm"}
+        color={"blue"}
+      >
+        <div>Should we try a purple background here?</div>
+        <div>Or maybe something that's not purple</div>
       </Comment>
       {/* <Comment
         pointTime={"00:42"}
@@ -223,81 +233,91 @@ function Timeline() {
   );
 }
 
-function Comment({ children, user, time, pointTime, color, reply }) {
+function Comment({ children, user, time, pointTime, color, reply, selected }) {
   const [hovered, setHovered] = useState(false);
   const commentNode = useRef(null);
 
   return (
     <div
-      className="group flex flex-col border px-6 py-2 rounded-md duration-300"
+      className={`group flex flex-col px-4 border-2 rounded-md duration-300 text-xs ${
+        selected
+          ? "border-purple-400 hover:border-purple-600"
+          : "hover:border-blue-400"
+      }`}
       ref={commentNode}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      <div className="flex flex-row space-x-4 border-b py-4">
-        <div className="flex flex-row items-center h-8 space-x-2">
-          {reply ? (
-            <div className="w-4 h-4 transform rotate-180 text-gray-400">
-              <Reply />
-            </div>
-          ) : null}
-          <div
-            className={`rounded-full flex flex-shrink-0 h-8 w-8 bg-${color}-400`}
-          />
-        </div>
+      <div
+        className={`flex flex-row space-x-4 py-4 ${selected ? "border-b" : ""}`}
+      >
         <div className="flex flex-col flex-grow space-y-1">
-          <div className="flex flex-row justify-between items-center">
-            <div className="space-x-2">
-              <span>{user}</span>
+          <div className="flex flex-row justify-between items-center space-x-4">
+            <div className="flex flex-row items-center h-8 space-x-2">
+              {reply ? (
+                <div className="w-4 h-4 transform rotate-180 text-gray-400">
+                  <Reply />
+                </div>
+              ) : null}
+              <div
+                className={`rounded-full flex flex-shrink-0 h-6 w-6 bg-${color}-400`}
+              />
+            </div>
+            <div className="space-x-2 text-sm flex-grow">
+              <span className="font-medium">{user}</span>
               <span className="text-xs text-gray-600">{time}</span>
             </div>
             {hovered ? (
               <div className="flex flex-row space-x-2 transform">
-                <button className="h-5 w-5 hover:text-blue-500">
+                {/* <button className="h-5 w-5 hover:text-blue-500">
                   <Reply />
-                </button>
-                <button className="h-5 w-5 hover:text-blue-500">
+                </button> */}
+                <button className="h-4 w-4 hover:text-blue-500">
                   <Pencil />
                 </button>
-                <button className="h-5 w-5 hover:text-blue-500">
-                  <X />
+                <button className="h-4 w-4 hover:text-blue-500">
+                  <Trash />
                 </button>
               </div>
             ) : (
-              <span className="rounded-md font-mono bg-gray-100 text-gray-500 text-xs p-1">
+              <span className="rounded-md font-mono bg-gray-100 text-gray-500 text-xs px-1 py-0.5">
                 {pointTime}
               </span>
             )}
           </div>
-          <div className="text-gray-600 space-x-2 text-sm">{children}</div>
+          <div className="text-gray-600 space-y-1 text-xs pl-10">
+            {children}
+          </div>
         </div>
       </div>
-      <div className="py-4 space-x-4 flex flex-row justify-between items-center">
-        <div className="flex flex-row items-center h-8 space-x-2 self-start">
+      {selected && (
+        <div className="py-4 space-x-4 flex flex-row justify-between items-center">
+          <div className="flex flex-row items-center h-8 space-x-2 self-start">
+            <div
+              className={`rounded-full flex flex-shrink-0 h-6 w-6 bg-blue-400 opacity-50`}
+            />
+          </div>
+          {/* <span contenteditable="true">sdfsd</span> */}
           <div
-            className={`rounded-full flex flex-shrink-0 h-8 w-8 bg-blue-400 opacity-50`}
-          />
-        </div>
-        {/* <span contenteditable="true">sdfsd</span> */}
-        <div
-          className="text-gray-600 space-x-2 focus:outline-none text-sm flex-grow"
-          contenteditable="true"
-        >
-          Type a comment ...
-        </div>
-        {/* <textarea
+            className="text-gray-400 space-x-2 focus:outline-none text-xs flex-grow"
+            contenteditable="true"
+          >
+            Type a comment ...
+          </div>
+          {/* <textarea
           className="text-gray-600 space-x-2 text-sm flex-grow focus:outline-none"
           placeholder="Type a comment ..."
         /> */}
-        {/* <input
+          {/* <input
           type="textarea"
           className="text-gray-600 space-x-2 text-sm flex-grow focus:outline-none"
           placeholder="Type a comment ..."
         /> */}
-        <button className="w-5 h-5 hover:text-blue-500 transform rotate-90 flex-shrink-0">
-          <PaperAirplane />
-        </button>
-      </div>
+          <button className="w-4 h-4 hover:text-blue-500 transform rotate-90 flex-shrink-0">
+            <PaperAirplane />
+          </button>
+        </div>
+      )}
     </div>
   );
 }
