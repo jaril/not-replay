@@ -14,6 +14,7 @@ import {
   ChevronDown,
   Folder,
   Document,
+  PaperAirplane,
 } from "./Icons";
 
 function App() {
@@ -126,15 +127,15 @@ function Transcript() {
       </div>
       <Comment
         pointTime={"00:25"}
-        user={"Jaril"}
+        user={"Jason"}
         time={"1:04pm"}
-        color={"blue"}
+        color={"green"}
       >
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
         tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
         veniam, quis
       </Comment>
-      <Comment
+      {/* <Comment
         pointTime={"00:42"}
         user={"Jason"}
         time={"3:45pm"}
@@ -151,8 +152,8 @@ function Transcript() {
         reply
       >
         Incididunt ut labore et dolore magna
-      </Comment>
-      <Comment
+      </Comment> */}
+      {/* <Comment
         pointTime={"00:52"}
         user={"Jaril"}
         time={"1:04pm"}
@@ -161,7 +162,7 @@ function Transcript() {
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
         tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
         veniam, quis
-      </Comment>
+      </Comment> */}
     </List>
   );
 }
@@ -228,46 +229,74 @@ function Comment({ children, user, time, pointTime, color, reply }) {
 
   return (
     <div
-      className="group flex flex-row space-x-4 hover:bg-gray-100 p-2 rounded-sm duration-300"
+      className="group flex flex-col border px-6 py-2 rounded-md duration-300"
       ref={commentNode}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      <div className="flex flex-row items-center h-8 space-x-2">
-        {reply ? (
-          <div className="w-4 h-4 transform rotate-180 text-gray-400">
-            <Reply />
-          </div>
-        ) : null}
-        <div
-          className={`rounded-full flex flex-shrink-0 h-8 w-8 bg-${color}-400`}
-        />
-      </div>
-      <div className="flex flex-col flex-grow space-y-1">
-        <div className="flex flex-row justify-between items-center">
-          <div className="space-x-2">
-            <span>{user}</span>
-            <span className="text-xs text-gray-600">{time}</span>
-          </div>
-          {hovered ? (
-            <div className="flex flex-row space-x-2 transform">
-              <button className="h-5 w-5 hover:text-blue-500">
-                <Reply />
-              </button>
-              <button className="h-5 w-5 hover:text-blue-500">
-                <Pencil />
-              </button>
-              <button className="h-5 w-5 hover:text-blue-500">
-                <X />
-              </button>
+      <div className="flex flex-row space-x-4 border-b py-4">
+        <div className="flex flex-row items-center h-8 space-x-2">
+          {reply ? (
+            <div className="w-4 h-4 transform rotate-180 text-gray-400">
+              <Reply />
             </div>
-          ) : (
-            <span className="rounded-md font-mono bg-gray-100 text-gray-500 text-xs p-1">
-              {pointTime}
-            </span>
-          )}
+          ) : null}
+          <div
+            className={`rounded-full flex flex-shrink-0 h-8 w-8 bg-${color}-400`}
+          />
         </div>
-        <div className="text-gray-600 space-x-2 text-sm">{children}</div>
+        <div className="flex flex-col flex-grow space-y-1">
+          <div className="flex flex-row justify-between items-center">
+            <div className="space-x-2">
+              <span>{user}</span>
+              <span className="text-xs text-gray-600">{time}</span>
+            </div>
+            {hovered ? (
+              <div className="flex flex-row space-x-2 transform">
+                <button className="h-5 w-5 hover:text-blue-500">
+                  <Reply />
+                </button>
+                <button className="h-5 w-5 hover:text-blue-500">
+                  <Pencil />
+                </button>
+                <button className="h-5 w-5 hover:text-blue-500">
+                  <X />
+                </button>
+              </div>
+            ) : (
+              <span className="rounded-md font-mono bg-gray-100 text-gray-500 text-xs p-1">
+                {pointTime}
+              </span>
+            )}
+          </div>
+          <div className="text-gray-600 space-x-2 text-sm">{children}</div>
+        </div>
+      </div>
+      <div className="py-4 space-x-4 flex flex-row justify-between items-center">
+        <div className="flex flex-row items-center h-8 space-x-2 self-start">
+          <div
+            className={`rounded-full flex flex-shrink-0 h-8 w-8 bg-blue-400 opacity-50`}
+          />
+        </div>
+        {/* <span contenteditable="true">sdfsd</span> */}
+        <div
+          className="text-gray-600 space-x-2 focus:outline-none text-sm flex-grow"
+          contenteditable="true"
+        >
+          Type a comment ...
+        </div>
+        {/* <textarea
+          className="text-gray-600 space-x-2 text-sm flex-grow focus:outline-none"
+          placeholder="Type a comment ..."
+        /> */}
+        {/* <input
+          type="textarea"
+          className="text-gray-600 space-x-2 text-sm flex-grow focus:outline-none"
+          placeholder="Type a comment ..."
+        /> */}
+        <button className="w-5 h-5 hover:text-blue-500 transform rotate-90 flex-shrink-0">
+          <PaperAirplane />
+        </button>
       </div>
     </div>
   );
